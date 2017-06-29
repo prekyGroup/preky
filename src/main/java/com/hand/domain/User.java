@@ -2,6 +2,7 @@ package com.hand.domain;
 
 /**
  * Created by wankun on 2017/6/29.
+ *
  */
 public class User extends BaseBean{
     //用户ID
