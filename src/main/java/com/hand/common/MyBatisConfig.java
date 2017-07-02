@@ -1,61 +1,60 @@
 package com.hand.common;
 
-import com.alibaba.druid.pool.DruidDataSourceFactory;
+import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
-import java.util.Properties;
 
 /**
- * Created by wankun on 2017/6/29.
- * springboot集成mybatis的基本入口
- * 1）创建数据源
- * 2）创建SqlSessionFactory
+ * springboot集成mybatis的基本入口 1）创建数据源(如果采用的是默认的tomcat-jdbc数据源，则不需要)
+ * 2）创建SqlSessionFactory 3）配置事务管理器，除非需要使用事务，否则不用配置
  */
-
-@Configuration    //该注解类似于spring配置文件
-@MapperScan(basePackages="com.hand.mapper")
+@Configuration // 该注解类似于spring配置文件
+@MapperScan(basePackages = "com.hand.mapper", sqlSessionFactoryRef = "sqlSessionFactory")
+@EnableAutoConfiguration
 public class MyBatisConfig {
-    @Autowired
-    private Environment env;
 
     /**
-     * 创建数据源
-     * @Primary 该注解表示在同一个接口有多个实现类可以注入的时候，默认选择哪一个，而不是让@autowire注解报错
+     *
      */
-    @Bean
-    //@Primary
-    public DataSource getDataSource() throws Exception{
-        Properties props = new Properties();
-        props.put("driverClassName", env.getProperty("jdbc.driverClassName"));
-        props.put("url", env.getProperty("jdbc.url"));
-        props.put("username", env.getProperty("jdbc.username"));
-        props.put("password", env.getProperty("jdbc.password"));
-        return DruidDataSourceFactory.createDataSource(props);
+    @Bean(name = "dataSource")
+    public DataSource dataSource() {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName("jdbc.driverClassName");
+        dataSource.setUrl("jdbc.url");
+        dataSource.setUsername("jdbc.username");
+        dataSource.setPassword("jdbc.password");
+        return dataSource;
     }
 
     /**
-     * 根据数据源创建SqlSessionFactory
+     * 配置事务管理器
      */
     @Bean
-    public SqlSessionFactory sqlSessionFactory() throws Exception{
-        DataSource dataSource = getDataSource();
+    public DataSourceTransactionManager transactionManager() throws Exception {
+        DataSource dataSource = dataSource();
+        return new DataSourceTransactionManager(dataSource);
+    }
 
-        SqlSessionFactoryBean fb = new SqlSessionFactoryBean();
-        fb.setDataSource(dataSource);//指定数据源(这个必须有，否则报错)
-        //下边两句仅仅用于*.xml文件，如果整个持久层操作不需要使用到xml文件的话（只用注解就可以搞定），则不加
-        /*fb.setTypeAliasesPackage(env.getProperty("mybatis.typeAliasesPackage"));//指定基包
-        fb.setMapperLocations(new PathMatchingResourcePatternResolver()
-                .getResources(env.getProperty("mybatis.mapperLocations")));//指定xml文件位置*/
-
-        return fb.getObject();
+    /**
+     *
+     */
+    @Bean(name = "sqlSessionFactory")
+    public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource masterDataSource)
+            throws Exception {
+        final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+        sessionFactory.setDataSource(masterDataSource);
+        sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
+                .getResources("classpath:/mapper/*.xml"));
+        return sessionFactory.getObject();
     }
 
 }

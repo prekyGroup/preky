@@ -1,11 +1,21 @@
 package com.hand.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by wankun on 2017/6/29.
  *
  */
+@Entity
+@Table(name = "user")
 public class User extends BaseBean{
+
     //用户ID
+    @Id
+    @GeneratedValue
     private Integer userId;
     //账号
     private Integer userNum;

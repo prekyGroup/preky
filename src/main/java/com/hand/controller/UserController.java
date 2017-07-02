@@ -1,7 +1,9 @@
 package com.hand.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.hand.domain.User;
+import com.hand.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by wankun on 2017/6/29.
@@ -9,6 +11,19 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/test")
+    public String test(){
+        return "test123";
+    }
+
+    @PostMapping("/users")
+    public User save(@RequestBody User user){
+        return user;
+    }
+
 }
