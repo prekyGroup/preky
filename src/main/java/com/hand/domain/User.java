@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * Created by wankun on 2017/6/29.
@@ -18,23 +20,27 @@ public class User extends BaseBean{
     @GeneratedValue
     private Integer userId;
     //账号
-    private Integer userNum;
+    @NotNull
+    private String userNum;
     //密码
-    private Integer userPassword;
+    @NotNull
+    private String userPassword;
     //用户名
-    private Integer userName;
+    @NotNull
+    private String userName;
     //图片
-    private Integer userImg;
+    private String userImg;
     //邮箱
-    private Integer userMail;
+    @NotNull
+    private String userMail;
     //手机
     private Integer userPhone;
     //性别
-    private Integer userSex;
+    private String userSex;
     //生日
-    private Integer userBirthday;
+    private Date userBirthday;
     //状态
-    private Integer userStatus;
+    private String userStatus;
 
     public User() {
     }
@@ -47,43 +53,43 @@ public class User extends BaseBean{
         this.userId = userId;
     }
 
-    public Integer getUserNum() {
+    public String getUserNum() {
         return userNum;
     }
 
-    public void setUserNum(Integer userNum) {
+    public void setUserNum(String userNum) {
         this.userNum = userNum;
     }
 
-    public Integer getUserPassword() {
+    public String getUserPassword() {
         return userPassword;
     }
 
-    public void setUserPassword(Integer userPassword) {
+    public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
 
-    public Integer getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    public void setUserName(Integer userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    public Integer getUserImg() {
+    public String getUserImg() {
         return userImg;
     }
 
-    public void setUserImg(Integer userImg) {
+    public void setUserImg(String userImg) {
         this.userImg = userImg;
     }
 
-    public Integer getUserMail() {
+    public String getUserMail() {
         return userMail;
     }
 
-    public void setUserMail(Integer userMail) {
+    public void setUserMail(String userMail) {
         this.userMail = userMail;
     }
 
@@ -95,27 +101,27 @@ public class User extends BaseBean{
         this.userPhone = userPhone;
     }
 
-    public Integer getUserSex() {
+    public String getUserSex() {
         return userSex;
     }
 
-    public void setUserSex(Integer userSex) {
+    public void setUserSex(String userSex) {
         this.userSex = userSex;
     }
 
-    public Integer getUserBirthday() {
+    public Date getUserBirthday() {
         return userBirthday;
     }
 
-    public void setUserBirthday(Integer userBirthday) {
+    public void setUserBirthday(Date userBirthday) {
         this.userBirthday = userBirthday;
     }
 
-    public Integer getUserStatus() {
+    public String getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(Integer userStatus) {
+    public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
     }
 }

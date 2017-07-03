@@ -16,11 +16,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/test")
-    public String test(){
-        return "test123";
-    }
-
     @PostMapping("/users")
     public User save(@RequestBody User user){
         return user;

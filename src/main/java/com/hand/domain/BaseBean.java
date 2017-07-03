@@ -1,11 +1,13 @@
 package com.hand.domain;
 
+import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
 /**
  * Created by wankun on 2017/6/29.
  * BaseBean 基础实体类
  */
+@MappedSuperclass
 public class BaseBean {
     //排序号
     private Integer baseSort;
@@ -20,11 +22,11 @@ public class BaseBean {
     //创建者
     private Integer createBy;
     //创建时间
-    private Date createDate;
+    private Date createAt;
     //更新者
     private Integer updateBy;
     //更新时间
-    private Date updateDate;
+    private Date updateAt;
 
     public Integer getBaseSort() {
         return baseSort;
@@ -90,14 +92,6 @@ public class BaseBean {
         this.createBy = createBy;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
     public Integer getUpdateBy() {
         return updateBy;
     }
@@ -106,11 +100,19 @@ public class BaseBean {
         this.updateBy = updateBy;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
     }
 }
